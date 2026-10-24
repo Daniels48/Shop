@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTTP Tester for 1C</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .button {
+            padding: 10px 15px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: black;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .log {
+            border: 1px solid #ddd;
+            padding: 15px;
+            height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin: 8px 0;
+            padding: 8px;
+            border-left: 4px solid #007bff;
+            background: white;
+        }
+
+        .input-group {
+            margin: 10px 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .product-form,
+        .payment-form {
+            background: #e9ecef;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+
+        .cors-note {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>📡 HTTP Tester для 1С</h1>
+
+        <div class="cors-note">
+            <strong>⚠️ Внимание:</strong> Если возникают CORS ошибки, используйте браузер с отключенной безопасностью или CORS расширение.
+        </div>
+
+        <div class="input-group">
+            <label>Базовый URL сервера:</label>
+            <input type="text" id="httpUrl" value="http://localhost:8081" placeholder="http://server:port">
+        </div>
+
+        <div class="input-group">
+            <label>Метод:</label>
+            <select id="httpMethod">
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+            </select>
+        </div>
+
+        <div class="input-group">
+            <label>Заголовки (JSON):</label>
+            <textarea id="httpHeaders" rows="3">{
+"Content-Type": "application/json",
+"Accept": "application/json"
+}</textarea>
+        </div>
+
+        <button class="button btn-info" onclick="testHttpConnection()">🔍 Тест подключения</button>
+
+        <h3>📦 Отправка товара:</h3>
+        <div class="product-form">
+            <div class="input-group">
+                <label>Endpoint для товаров:</label>
+                <input type="text" id="productEndpoint" value="/add_product" placeholder="/api/product">
+            </div>
+            <div class="input-group">
+                <label>Штрихкод:</label>
+                <input type="text" id="barcode" value="2000000123456">
+            </div>
+            <div class="input-group">
+                <label>Наименование:</label>
+                <input type="text" id="productName" value="Тестовый товар">
+            </div>
+            <div class="input-group">
+                <label>Цена:</label>
+                <input type="number" id="price" value="150.50" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Количество:</label>
+                <input type="number" id="quantity" value="2">
+            </div>
+            <button class="button btn-success" onclick="sendProductHttp()">📦 Отправить товар</button>
+            <button class="button btn-warning" onclick="sendRandomProduct()">🎲 Случайный товар</button>
+        </div>
+
+        <h3>💳 Отправка оплаты:</h3>
+        <div class="payment-form">
+            <div class="input-group">
+                <label>Endpoint для оплаты:</label>
+                <input type="text" id="paymentEndpoint" value="/add_payment" placeholder="/api/payment">
+            </div>
+            <div class="input-group">
+                <label>Тип оплаты:</label>
+                <select id="paymentType">
+                    <option value="cash">Наличные</option>
+                    <option value="card">Карта</option>
+                    <option value="combined">Комбинированная</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Сумма:</label>
+                <input type="number" id="amount" value="500.00" step="0.01">
+            </div>
+            <button class="button btn-success" onclick="sendPaymentHttp()">💳 Отправить оплату</button>
+        </div>
+
+        <h3>⚡ Другие команды:</h3>
+        <div class="input-group">
+            <label>Endpoint для команд:</label>
+            <input type="text" id="commandEndpoint" value="/command" placeholder="/api/command">
+        </div>
+        <button class="button btn-info" onclick="sendConnection()">🔗 Подтверждение связи</button>
+        <button class="button btn-warning" onclick="sendClearCart()">🔄 Очистить корзину</button>
+        <button class="button btn-danger" onclick="sendError()">🐛 Тест ошибки</button>
+
+        <h3>📋 Лог сообщений:</h3>
+        <div id="log" class="log"></div>
+    </div>
+
+    <script>
+        function log(message, type = 'info') {
+            const logDiv = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message';
+
+            let icon = '📝';
+            if (type === 'success') icon = '✅';
+            if (type === 'error') icon = '❌';
+            if (type === 'sent') icon = '📤';
+            if (type === 'http') icon = '📡';
+
+            messageDiv.innerHTML = `<strong>${icon} [${timestamp}]</strong> ${message}`;
+
+            if (type === 'error') messageDiv.style.borderLeftColor = '#dc3545';
+            if (type === 'success') messageDiv.style.borderLeftColor = '#28a745';
+            if (type === 'sent') messageDiv.style.borderLeftColor = '#007bff';
+            if (type === 'http') messageDiv.style.borderLeftColor = '#17a2b8';
+
+            logDiv.appendChild(messageDiv);
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+
+        // HTTP функции
+        async function sendHttpRequest(data, endpoint = '') {
+            const baseUrl = document.getElementById('httpUrl').value;
+            const method = document.getElementById('httpMethod').value;
+            const fullUrl = baseUrl + endpoint;
+
+            if (!baseUrl) {
+                alert('Введите базовый URL сервера');
+                return;
+            }
+
+            let headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            };
+
+            try {
+                const customHeaders = document.getElementById('httpHeaders').value;
+                if (customHeaders) {
+                    const parsedHeaders = JSON.parse(customHeaders);
+                    headers = { ...headers, ...parsedHeaders };
+                }
+            } catch (e) {
+                log(`Ошибка в формате заголовков: ${e}`, 'error');
+                return;
+            }
+
+            try {
+                log(`HTTP ${method} запрос на: ${fullUrl}`, 'http');
+                log(`Данные: ${JSON.stringify(data, null, 2)}`, 'http');
+
+                const response = await fetch(fullUrl, {
+                    method: method,
+                    headers: headers,
+                    body: JSON.stringify(data),
+                    mode: 'cors' // Явно указываем режим CORS
+                });
+
+                const responseText = await response.text();
+
+                let responseData;
+                try {
+                    responseData = JSON.parse(responseText);
+                } catch {
+                    responseData = responseText;
+                }
+
+                if (response.ok) {
+                    log(`✅ HTTP успешно (${response.status}): ${JSON.stringify(responseData, null, 2)}`, 'success');
+                } else {
+                    log(`❌ HTTP ошибка ${response.status}: ${JSON.stringify(responseData, null, 2)}`, 'error');
+                }
+
+                return responseData;
+
+            } catch (error) {
+                if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                    log(`🌐 Ошибка CORS или сети: Проверьте:\n1. Сервер запущен\n2. CORS заголовки на сервере\n3. URL сервера\n4. Сетевое подключение`, 'error');
+                } else {
+                    log(`❌ HTTP ошибка: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        async function testHttpConnection() {
+            const testData = {
+                "ТипСообщения": "test",
+                "Сообщение": "Тестовое подключение",
+                "ВременнаяМетка": new Date().toISOString()
+            };
+
+            const endpoint = document.getElementById('commandEndpoint').value || '/test';
+            await sendHttpRequest(testData, endpoint);
+        }
+
+        // Функции для данных
+        function getProductData() {
+            return {
+                "ТипСообщения": "товар",
+                "Данные": {
+                    "штрихкод": document.getElementById('barcode').value,
+                    "наименование": document.getElementById('productName').value,
+                    "цена": parseFloat(document.getElementById('price').value),
+                    "количество": parseInt(document.getElementById('quantity').value)
+                }
+            };
+        }
+
+        function getPaymentData() {
+            return {
+                "ТипСообщения": "оплата",
+                "ТипОплаты": document.getElementById('paymentType').value,
+                "Сумма": parseFloat(document.getElementById('amount').value)
+            };
+        }
+
+        // HTTP отправка
+        async function sendProductHttp() {
+            const productData = getProductData();
+            const endpoint = document.getElementById('productEndpoint').value;
+            await sendHttpRequest(productData, endpoint);
+        }
+
+        async function sendPaymentHttp() {
+            const paymentData = getPaymentData();
+            const endpoint = document.getElementById('paymentEndpoint').value;
+            await sendHttpRequest(paymentData, endpoint);
+        }
+
+        // Общие команды
+        function sendRandomProduct() {
+            const randomProducts = [
+                { "наименование": "Молоко Простоквашино", "цена": 85.50, "штрихкод": "2000000123456" },
+                { "наименование": "Хлеб Бородинский", "цена": 45.00, "штрихкод": "2000000789012" },
+                { "наименование": "Сыр Российский", "цена": 320.00, "штрихкод": "2000000456789" },
+                { "наименование": "Колбаса Докторская", "цена": 280.50, "штрихкод": "2000000321654" },
+                { "наименование": "Вода Минеральная", "цена": 65.00, "штрихкод": "2000000987654" }
+            ];
+
+            const randomProduct = randomProducts[Math.floor(Math.random() * randomProducts.length)];
+
+            document.getElementById('barcode').value = randomProduct.штрихкod;
+            document.getElementById('productName').value = randomProduct.наименование;
+            document.getElementById('price').value = randomProduct.цена;
+            document.getElementById('quantity').value = Math.floor(Math.random() * 3) + 1;
+
+            log(`🎲 Заполнен случайный товар: ${randomProduct.наименование}`, 'info');
+        }
+
+        async function sendConnection() {
+            const connectionData = {
+                "ТипСообщения": "connection",
+                "Статус": "connected",
+                "ВременнаяМетка": new Date().toISOString()
+            };
+            const endpoint = document.getElementById('commandEndpoint').value || '/connection';
+            await sendHttpRequest(connectionData, endpoint);
+        }
+
+        async function sendClearCart() {
+            const clearData = {
+                "ТипСообщения": "очистка",
+                "Действие": "очистить_корзину",
+                "ВременнаяМетка": new Date().toISOString()
+            };
+            const endpoint = document.getElementById('commandEndpoint').value || '/clear';
+            await sendHttpRequest(clearData, endpoint);
+        }
+
+        async function sendError() {
+            const errorData = {
+                "ТипСообщения": "ошибка",
+                "ТекстОшибки": "Тестовая ошибка из браузера",
+                "ВременнаяМетка": new Date().toISOString()
+            };
+            const endpoint = document.getElementById('commandEndpoint').value || '/error';
+            await sendHttpRequest(errorData, endpoint);
+        }
+
+        // Автозагрузка
+        window.onload = function () {
+            log('🚀 HTTP тестер готов к работе!', 'info');
+            log('Настройте базовый URL и endpoints, затем нажмите "Тест подключения"', 'info');
+        };
+
+        // Быстрые клавиши
+        document.addEventListener('keydown', function (e) {
+            // Ctrl+Enter для быстрой отправки товара
+            if (e.ctrlKey && e.key === 'Enter') {
+                const activeElement = document.activeElement;
+                if (activeElement.tagName !== 'TEXTAREA' && activeElement.tagName !== 'INPUT') {
+                    sendProductHttp();
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

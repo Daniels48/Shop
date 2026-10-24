@@ -1,0 +1,72 @@
+-- 0. Подключись к нужной базе данных перед выполнением
+
+-- 1. Создание таблицы products
+CREATE TABLE IF NOT EXISTS products (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price_sale DECIMAL(10, 2) NOT NULL,
+    quantity DECIMAL(10, 2) NOT NULL DEFAULT 1
+);
+
+-- 2. Создание таблицы sales
+CREATE TABLE IF NOT EXISTS sales (
+    id SERIAL PRIMARY KEY,
+    sale_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    total_amount DECIMAL(10, 2) NOT NULL,
+    payment_method VARCHAR(50) NOT NULL
+);
+
+-- 3. Создание таблицы sale_items
+CREATE TABLE IF NOT EXISTS sale_items (
+    id SERIAL PRIMARY KEY,
+    sale_id INTEGER REFERENCES sales(id) ON DELETE CASCADE,
+    product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+    quantity DECIMAL(10, 2) NOT NULL,
+    item_price DECIMAL(10, 2) NOT NULL
+);
+
+-- 4. Создание таблицы inventory_changes
+CREATE TABLE IF NOT EXISTS inventory_changes (
+    id SERIAL PRIMARY KEY,
+    product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+    quantity DECIMAL(10, 2) NOT NULL,
+    change_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    type_action VARCHAR(50) NOT NULL,
+    id_sale INTEGER REFERENCES sales(id) ON DELETE SET NULL,
+    union_data TEXT
+);
+
+-- 5. Удаление поля barcode из products (если оно было создано раньше)
+ALTER TABLE products DROP COLUMN IF EXISTS barcode;
+
+-- 6. Создание таблицы product_barcodes
+CREATE TABLE IF NOT EXISTS product_barcodes (
+    id SERIAL PRIMARY KEY,
+    product_id INTEGER REFERENCES products(id) ON DELETE CASCADE,
+    barcode VARCHAR(255) UNIQUE NOT NULL
+);
+
+-- 7. Создание индексов
+
+-- products
+CREATE INDEX IF NOT EXISTS idx_products_name ON products(name);
+
+-- sales
+CREATE INDEX IF NOT EXISTS idx_sales_sale_date ON sales(sale_date);
+CREATE INDEX IF NOT EXISTS idx_sales_payment_method ON sales(payment_method);
+
+-- sale_items
+CREATE INDEX IF NOT EXISTS idx_sale_items_sale_id ON sale_items(sale_id);
+CREATE INDEX IF NOT EXISTS idx_sale_items_product_id ON sale_items(product_id);
+CREATE INDEX IF NOT EXISTS idx_sale_items_sale_product ON sale_items(sale_id, product_id);
+
+-- inventory_changes
+CREATE INDEX IF NOT EXISTS idx_inventory_changes_product_id ON inventory_changes(product_id);
+CREATE INDEX IF NOT EXISTS idx_inventory_changes_change_date ON inventory_changes(change_date);
+
+-- product_barcodes
+CREATE INDEX IF NOT EXISTS idx_product_barcodes_product_id ON product_barcodes(product_id);
+CREATE INDEX IF NOT EXISTS idx_product_barcodes_barcode ON product_barcodes(barcode);
+-- (если barcode уже UNIQUE — этот индекс создаётся автоматически)
+
+-- Готово ✅
