@@ -1,5 +1,5 @@
 import psycopg2
-from model.database import db_config
+from app.model.database import db_config
 import datetime
 from psycopg2 import sql
 

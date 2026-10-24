@@ -4,8 +4,8 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt
-from utils.payment_utils import PaymentThread, check_valid_terminal
-from utils.get_path import get_resourse_path_icon
+from app.utils.payment_utils import PaymentThread, check_valid_terminal
+from app.utils.get_path import get_resourse_path_icon
 
 
 class FocusSpinBox(QDoubleSpinBox):

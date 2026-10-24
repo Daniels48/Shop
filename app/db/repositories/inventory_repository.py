@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session, aliased
 
 from app.db.models.model_inventory_change import InventoryChange
 from app.db.models.model_product import Product
-from db.database import SessionLocal
-from db.models import Sale, ProductBarcode, SaleItem
-from view.dialog.product_history.tabs.history_tab.calculator.enums import InventoryChangeStatistic
+from app.db.database import SessionLocal
+from app.db.models import Sale, ProductBarcode, SaleItem
+from app.view.dialog.product_history.tabs.history_tab.calculator.enums import InventoryChangeStatistic
 
 
 class InventoryRepository:

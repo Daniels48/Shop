@@ -2,9 +2,9 @@ from dataclasses import replace
 from datetime import date, datetime
 from decimal import Decimal, ROUND_HALF_UP
 
-from view.dialog.product_history.tabs.history_tab.calculator.enums import PaymentMethod, ActionType, InventoryChangeStatistic
-from view.dialog.product_history.tabs.history_tab.calculator.daily_statistic import DailyStatistic
-from view.dialog.product_history.tabs.history_tab.calculator.statistic_value import StatisticValue
+from app.view.dialog.product_history.tabs.history_tab.calculator.enums import PaymentMethod, ActionType, InventoryChangeStatistic
+from app.view.dialog.product_history.tabs.history_tab.calculator.daily_statistic import DailyStatistic
+from app.view.dialog.product_history.tabs.history_tab.calculator.statistic_value import StatisticValue
 
 
 class Statistic:

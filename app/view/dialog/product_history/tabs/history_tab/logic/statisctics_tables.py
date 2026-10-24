@@ -2,7 +2,7 @@ from dataclasses import fields
 
 from PyQt5.QtWidgets import QComboBox
 
-from view.dialog.product_history.utils import decimal_to_str_trimmed_for_quantity, decimal_to_str_trimmed_for_amount
+from app.view.dialog.product_history.utils import decimal_to_str_trimmed_for_quantity, decimal_to_str_trimmed_for_amount
 from ..calculator.daily_statistic import DailyStatistic, get_statistic_fields
 
 

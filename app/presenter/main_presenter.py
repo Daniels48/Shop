@@ -3,14 +3,13 @@
 # from PyQt5.QtCore import Qt
 # from presenter.pc2 import Mock1CServer
 # import asyncio
-from db.database import SessionLocal
-from db.repositories.product_repository import ProductRepository
-from db.repositories.sale_repository import SaleRepository
-from model.ProductModel import Product
-from model.database.database import Database
-from utils.decorators import handle_dialog
-from view.dialog import ProductDialog, DataDialog, PaymentDialog, PayDialog, CountDialog, PrintDialog
-from search_global import update_results, POSITION_CONFIG, select_current_item
+from app.db.database import SessionLocal
+from app.db.repositories.sale_repository import SaleRepository
+from app.model.ProductModel import Product
+from app.model.database.database import Database
+from app.utils.decorators import handle_dialog
+from app.view.dialog import ProductDialog, DataDialog, PaymentDialog, PayDialog, CountDialog, PrintDialog
+from app.search_global import update_results, POSITION_CONFIG, select_current_item
 
 
 class MainPresenter:

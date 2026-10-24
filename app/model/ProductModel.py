@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QMessageBox
-from view.dialog.product_history.utils import format_decimal_to_str
+from app.view.dialog.product_history.utils import format_decimal_to_str
 
 
 class Product:

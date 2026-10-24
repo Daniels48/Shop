@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtCore import Qt, QTimer
 
-from view.dialog.product_history.tabs.history_tab.calculator.enums import ActionType
+from app.view.dialog.product_history.tabs.history_tab.calculator.enums import ActionType
 from .tabs.list_products_tab import ProductsTabLoader
 from .tabs.sum_list_products_tab import SumProductsTabLoader
 from .tabs.history_tab.logic import HistoryLoader, TableStatiscticUIManager
@@ -13,11 +13,11 @@ from .tabs.history_tab import (
     create_date_first_line, create_right_panel_info, create_search_tab, create_tree_item,
     create_custom_cell_widget, get_data_dict_in_tree_item
 )
-from view.dialog.product_history.utils import decimal_to_str_trimmed_for_amount, decimal_to_str_trimmed_for_quantity
-from search_global import create_search_result_list
+from app.view.dialog.product_history.utils import decimal_to_str_trimmed_for_amount, decimal_to_str_trimmed_for_quantity
+from app.search_global import create_search_result_list
 
-from view.dialog.product_history.handlers import SearchHandler
-from utils.decorators import debug_decorator
+from app.view.dialog.product_history.handlers import SearchHandler
+from app.utils.decorators import debug_decorator
 from PyQt5.QtCore import QEvent
 
 

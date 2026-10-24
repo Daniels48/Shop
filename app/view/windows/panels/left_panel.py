@@ -2,8 +2,8 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout,QHBoxLayout,QLabel,QPushButton,
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap
 
-from utils.get_path import get_resourse_path_icon
-from model.TableModel import ProductTableModel, get_stylesheet
+from app.utils.get_path import get_resourse_path_icon
+from app.model.TableModel import ProductTableModel, get_stylesheet
 
 
 class LeftPanel(QWidget):

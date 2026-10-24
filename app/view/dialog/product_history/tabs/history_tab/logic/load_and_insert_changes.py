@@ -1,12 +1,12 @@
 from datetime import datetime, timedelta
 
-from view.dialog.product_history.tabs.history_tab.calculator.enums import ActionType, PaymentMethod, InventoryChangeStatistic
-from db.repositories.inventory_repository import InventoryRepository
-from utils.times import to_local_time
-from view.dialog.product_history.tabs.history_tab import create_tree_item, create_date_three_item
+from app.view.dialog.product_history.tabs.history_tab.calculator.enums import ActionType, PaymentMethod, InventoryChangeStatistic
+from app.db.repositories.inventory_repository import InventoryRepository
+from app.utils.times import to_local_time
+from app.view.dialog.product_history.tabs.history_tab import create_tree_item, create_date_three_item
 from typing import Tuple
-from view.dialog.product_history.utils import decimal_to_str_trimmed_for_amount, decimal_to_str_trimmed_for_quantity
-from utils.decorators import debug_decorator
+from app.view.dialog.product_history.utils import decimal_to_str_trimmed_for_amount, decimal_to_str_trimmed_for_quantity
+from app.utils.decorators import debug_decorator
 from PyQt5.QtCore import QModelIndex, QPoint, Qt
 from dataclasses import replace
 

@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from decimal import Decimal
 
-from view.dialog.product_history.utils import decimal_to_str_trimmed_for_amount
+from app.view.dialog.product_history.utils import decimal_to_str_trimmed_for_amount
 
 
 class ActionType(str, Enum):

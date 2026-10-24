@@ -3,10 +3,10 @@ from PyQt5.QtWidgets import (
     QHBoxLayout, QSizePolicy, QWidget, QMessageBox, QCheckBox, QListWidget, QListWidgetItem
 )
 from PyQt5.QtCore import Qt
-from view.dialog.password_dialog import PasswordDialog
+from app.view.dialog.password_dialog import PasswordDialog
 from PyQt5.QtGui import QKeyEvent
-from view.dialog.product_history.utils import format_decimal_to_str
-from search_global import create_search_result_list, POSITION_CONFIG, update_results, select_current_item, get_product_and_handle
+from app.view.dialog.product_history.utils import format_decimal_to_str
+from app.search_global import create_search_result_list, POSITION_CONFIG, update_results, select_current_item, get_product_and_handle
 
 
 class ProductDialog(QDialog):

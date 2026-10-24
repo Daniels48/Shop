@@ -1,12 +1,16 @@
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-ENV_PATH = BASE_DIR / ".env"
+if getattr(sys, "frozen", False):
+    BASE_DIR = Path(sys._MEIPASS)
+else:
+    BASE_DIR = Path(__file__).resolve().parent.parent
 
+ENV_PATH = BASE_DIR / ".env"
 load_dotenv(ENV_PATH)
 
 
@@ -25,6 +29,6 @@ class DatabaseConfig:
 db_config = DatabaseConfig()
 
 
-global_path_resorces = "view/resources"
+global_path_resorces = "app/view/resources"
 global_path_icons = f"{global_path_resorces}/icons"
 global_path_audio = f"{global_path_resorces}/audio"

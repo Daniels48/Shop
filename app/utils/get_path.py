@@ -1,17 +1,27 @@
 import sys
-import os
+from pathlib import Path
 
-from config import global_path_icons
+from app.config import global_path_icons, global_path_audio, global_path_resorces
 
-def resource_path(relative_path):
-    """ Получает правильный путь к ресурсам в PyInstaller """
-    if hasattr(sys, '_MEIPASS'):
-        return os.path.join(sys._MEIPASS, relative_path)  # Для собранного приложения
-    return os.path.join(os.path.abspath("."), relative_path)  # Для обычного запуска
+
+def resource_path(relative_path: str) -> str:
+
+    if getattr(sys, "frozen", False):
+        base_path = Path(sys._MEIPASS)
+    else:
+        base_path = Path(__file__).resolve().parents[2]
+
+    return str(base_path / relative_path)
 
 
 def get_resourse_path_icon(name: str) -> str:
-    raw_path = f"{global_path_icons}/{name}"
-    return resource_path(raw_path)
+    return resource_path(f"{global_path_icons}/{name}")
 
 
+def get_resourse_path_audio(name: str) -> str:
+    return resource_path(f"{global_path_audio}/{name}")
+
+icon_path = get_resourse_path_icon("delete.ico")
+print("Путь к иконке:", icon_path)
+print("Файл существует:", Path(icon_path).exists())
+"""Возвращает путь к ресурсу в исходном или собранном приложении."""

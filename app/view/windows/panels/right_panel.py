@@ -1,16 +1,9 @@
-from PyQt5.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QPushButton,
-    QLineEdit,
-    QGridLayout,
-    QSizePolicy,
-)
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QPushButton,QLineEdit,QGridLayout,QSizePolicy
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QIcon
 
-from utils.get_path import get_resourse_path_icon
-from search_global import create_search_result_list
+from app.utils.get_path import get_resourse_path_icon
+from app.search_global import create_search_result_list
 
 
 class RightPanel(QWidget):

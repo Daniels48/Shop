@@ -3,8 +3,8 @@ from PyQt5.QtWidgets import (
 )
 from PyQt5.QtGui import  QDoubleValidator, QIcon
 from PyQt5.QtCore import Qt, QSize
-from utils.get_path import get_resourse_path_icon
-from utils.payment_utils import PaymentThread, check_valid_terminal
+from app.utils.get_path import get_resourse_path_icon
+from app.utils.payment_utils import PaymentThread, check_valid_terminal
 
 
 class PayDialog(QDialog):

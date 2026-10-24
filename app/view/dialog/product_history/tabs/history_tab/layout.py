@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (
     QLabel, QVBoxLayout, QGridLayout,QHBoxLayout
 )
 from PyQt5.QtGui import QBrush, QColor, QFont
-from view.dialog.product_history.tabs.history_tab.calculator.daily_statistic import get_statistic_fields
+from app.view.dialog.product_history.tabs.history_tab.calculator.daily_statistic import get_statistic_fields
 
 
 def create_history_tab(dialog):

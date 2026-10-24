@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QSplitter
 from PyQt5.QtCore import Qt, QTimer
 
-from handlers.event_handler import EventHandler
-from presenter.main_presenter import MainPresenter
-from view.windows.panels import LeftPanel, RightPanel, TopPanel
-from utils.decorators import debug_decorator
+from app.handlers.event_handler import EventHandler
+from app.presenter.main_presenter import MainPresenter
+from app.view.windows.panels import LeftPanel, RightPanel, TopPanel
+from app.utils.decorators import debug_decorator
 
 
 class MainWindow(QWidget):

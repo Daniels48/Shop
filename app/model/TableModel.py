@@ -1,4 +1,4 @@
-from model.ProductModel import Product
+from app.model.ProductModel import Product
 from PyQt5.QtCore import QAbstractTableModel, QModelIndex, Qt, QItemSelectionModel
 from decimal import Decimal
 

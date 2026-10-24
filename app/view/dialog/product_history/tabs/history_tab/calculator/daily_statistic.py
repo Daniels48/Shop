@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field, fields
 from datetime import date
 
-from view.dialog.product_history.tabs.history_tab.calculator.statistic_value import StatisticValue
+from app.view.dialog.product_history.tabs.history_tab.calculator.statistic_value import StatisticValue
 
 
 @dataclass

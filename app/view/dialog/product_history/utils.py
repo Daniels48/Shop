@@ -1,6 +1,6 @@
 from decimal import Decimal, ROUND_HALF_UP, ROUND_DOWN
 from re import findall
-from utils.decorators import debug_decorator
+from app.utils.decorators import debug_decorator
 
 sign_currency = "₽"
 

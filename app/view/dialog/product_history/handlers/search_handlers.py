@@ -1,5 +1,5 @@
-from search_global import update_results, POSITION_CONFIG, select_current_item, get_product_and_handle
-from utils.decorators import debug_decorator
+from app.search_global import update_results, POSITION_CONFIG, select_current_item, get_product_and_handle
+from app.utils.decorators import debug_decorator
 
 
 class SearchHandler:

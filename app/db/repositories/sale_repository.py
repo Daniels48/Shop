@@ -2,10 +2,9 @@ from sqlalchemy import select, func
 from sqlalchemy.orm import Session
 
 from app.db.models.model_sale import Sale
-from db.database import SessionLocal
-from db.models import InventoryChange, Product, SaleItem
-from model.database.database import get_local_time
-from utils.times import get_now_dt
+from app.db.database import SessionLocal
+from app.db.models import InventoryChange, Product, SaleItem
+from app.utils.times import get_now_dt
 
 
 class SaleRepository:

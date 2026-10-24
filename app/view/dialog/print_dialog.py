@@ -8,9 +8,9 @@ from PyQt5.QtWidgets import (
     QSizePolicy, QMessageBox, QLineEdit, QListWidget,QListWidgetItem
 )
 from PyQt5.QtCore import Qt, QTimer
-from view.dialog.product_history.utils import format_decimal_to_str
+from app.view.dialog.product_history.utils import format_decimal_to_str
 
-from search_global import create_search_result_list, update_results, POSITION_CONFIG, select_current_item, get_product_and_handle
+from app.search_global import create_search_result_list, update_results, POSITION_CONFIG, select_current_item, get_product_and_handle
 
 
 
